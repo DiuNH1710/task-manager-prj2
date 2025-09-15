@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/inputs/Input";
+import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
@@ -24,6 +24,9 @@ const Login = () => {
       return;
     }
     setError("");
+    // Login API call
+    try {
+    } catch (error) {}
   };
 
   return (
