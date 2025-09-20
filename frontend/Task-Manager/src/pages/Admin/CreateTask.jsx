@@ -7,6 +7,9 @@ import SelectDropdown from "../../components/Inputs/SelectDropdown";
 import SelectUsers from "../../components/Inputs/SelectUsers";
 import TodoListInput from "../../components/Inputs/TodoListInput";
 import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import toast from "react-hot-toast";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -46,7 +49,30 @@ const CreateTask = () => {
   };
 
   // Create Task
-  const createTask = async () => {};
+  const createTask = async () => {
+    setLoading(true);
+
+    try {
+      const todoList = taskData.todoChecklist?.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoChecklist: todoList,
+      });
+
+      toast.success("Task created successfully");
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Update Task
   const updateTask = async () => {};
@@ -83,7 +109,7 @@ const CreateTask = () => {
       return;
     }
 
-    createTask;
+    createTask();
   };
 
   // get Task info by ID
@@ -229,3 +255,7 @@ const CreateTask = () => {
 };
 
 export default CreateTask;
+
+// test task 001 - description
+// Create testing document
+// Complete Testing End of Day
