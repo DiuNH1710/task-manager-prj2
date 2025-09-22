@@ -17,6 +17,7 @@ const TaskCard = ({
   attachmentCount,
   completedTodoCount,
   todoChecklist,
+  onClick,
 }) => {
   const getStatusTagColor = () => {
     switch (status) {
@@ -42,7 +43,7 @@ const TaskCard = ({
   return (
     <div
       className="bg-white rounded-xl py-4 shadow-md shadow-gray-100 border border-gray-200/50 cursor-pointer"
-      onClick={onclick}
+      onClick={onClick}
     >
       <div className="flex items-end gap-3 px-4">
         <div
