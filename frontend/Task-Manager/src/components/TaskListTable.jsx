@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
+import { formatDate } from "../utils/helper";
 
 const TaskListTable = ({ tableData }) => {
+  const { t, i18n } = useTranslation();
   const getStatusBadgeColor = (status) => {
     switch (status) {
       case "Completed":
@@ -36,16 +39,16 @@ const TaskListTable = ({ tableData }) => {
         <thead>
           <tr className="text-left">
             <th className="py-3 px-4 text-gray-800 font-medium text-[13px]">
-              Name
+              {t("tasks.nameTask")}
             </th>
             <th className="py-3 px-4 text-gray-800 font-medium text-[13px]">
-              Status
+              {t("tasks.status")}
             </th>
             <th className="py-3 px-4 text-gray-800 font-medium text-[13px]">
-              Priority
+              {t("tasks.priority")}
             </th>
             <th className="py-3 px-4 text-gray-800 font-medium text-[13px] hidden md:table-cell">
-              Created On
+              {t("tasks.createdOn")}
             </th>
           </tr>
         </thead>
@@ -61,7 +64,7 @@ const TaskListTable = ({ tableData }) => {
                     task.status
                   )}`}
                 >
-                  {task.status}
+                  {t(`status.${task.status.replace(" ", "")}`)}
                 </span>
               </td>
 
@@ -71,14 +74,14 @@ const TaskListTable = ({ tableData }) => {
                     task.priority
                   )}`}
                 >
-                  {task.priority}
+                  {t(`priority.${task.priority}`)}
                 </span>
               </td>
 
               <td className="py-4 px-4 text-gray-700 text-[13px] text-nowrap hidden md:table-cell">
                 {task.createdAt
-                  ? moment(task.createdAt).format("Do MMM YYYY")
-                  : "N/A"}
+                  ? formatDate(task.createdAt, i18n.language)
+                  : "NA"}
               </td>
             </tr>
           ))}

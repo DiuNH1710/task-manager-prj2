@@ -10,31 +10,31 @@ import {
 export const SIDE_MENU_DATA = [
   {
     id: "01",
-    label: "Dashboard",
+    label: "sidebar.dashboard",
     icon: LuLayoutDashboard,
     path: "/admin/dashboard",
   },
   {
     id: "02",
-    label: "Manager Tasks",
+    label: "sidebar.manageTasks",
     icon: LuClipboardCheck,
     path: "/admin/tasks",
   },
   {
     id: "03",
-    label: "Create Task",
+    label: "sidebar.createTask",
     icon: LuSquarePlus,
     path: "/admin/create-task",
   },
   {
     id: "04",
-    label: "Team Members",
+    label: "sidebar.teamMembers",
     icon: LuUsers,
     path: "/admin/users",
   },
   {
     id: "05",
-    label: "Logout",
+    label: "sidebar.logout",
     icon: LuLogOut,
     path: "logout",
   },
@@ -43,28 +43,28 @@ export const SIDE_MENU_DATA = [
 export const SIDE_MENU_USER_DATA = [
   {
     id: "01",
-    label: "Dashboard",
+    label: "sidebar.dashboard",
     icon: LuLayoutDashboard,
     path: "/user/dashboard",
   },
   {
     id: "02",
-    label: "My Tasks",
+    label: "sidebar.myTasks",
     icon: LuClipboardCheck,
     path: "/user/tasks",
   },
   {
     id: "03",
-    label: "Logout",
+    label: "sidebar.logout",
     icon: LuLogOut,
     path: "logout",
   },
 ];
 
 export const PRIORITY_DATA = [
-  { label: "Low", value: "Low" },
-  { label: "Medium", value: "Medium" },
-  { label: "High", value: "High" },
+  { label: "priority.Low", value: "Low" },
+  { label: "priority.Medium", value: "Medium" },
+  { label: "priority.High", value: "High" },
 ];
 
 export const STATUS_DATA = [

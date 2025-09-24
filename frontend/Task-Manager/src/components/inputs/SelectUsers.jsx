@@ -4,8 +4,10 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { LuUsers } from "react-icons/lu";
 import Modal from "../Modal";
 import AvatarGroup from "../AvatarGroup";
+import { useTranslation } from "react-i18next";
 
 const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
+  const { t } = useTranslation();
   const [allUsers, setAllUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempSelectedUsers, setTempSelectedUsers] = useState([]);
@@ -52,7 +54,7 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
     <div className="space-y-4 mt-2">
       {selectedUserAvatars.length === 0 && (
         <button className="card-btn" onClick={() => setIsModalOpen(true)}>
-          <LuUsers className="text-sm" /> Add Members
+          <LuUsers className="text-sm" /> {t("tasks.addMembers")}
         </button>
       )}
 

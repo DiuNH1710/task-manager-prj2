@@ -6,8 +6,10 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
+import { useTranslation } from "react-i18next";
 
 const MyTasks = () => {
+  const { t } = useTranslation();
   const [allTasks, setAllTasks] = useState([]);
 
   const [tabs, setTabs] = useState([]);
@@ -50,10 +52,12 @@ const MyTasks = () => {
   }, [filterStatus]);
 
   return (
-    <DashboardLayout activeMenu="Manage Tasks">
+    <DashboardLayout activeMenu={t("sidebar.manageTasks")}>
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
-          <h2 className="text-xl md:text-xl font-medium">My Tasks</h2>
+          <h2 className="text-xl md:text-xl font-medium">
+            {t("tasks.myTasks")}
+          </h2>
 
           {tabs?.[0]?.count > 0 && (
             <TaskStatusTabs

@@ -6,8 +6,11 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import moment from "moment";
 import AvatarGroup from "../../components/AvatarGroup";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
+import { useTranslation } from "react-i18next";
+import { formatDate } from "../../utils/helper";
 
 const ViewTaskDetails = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const [task, setTask] = useState(null);
 
@@ -76,7 +79,7 @@ const ViewTaskDetails = () => {
   }, [id]);
 
   return (
-    <DashboardLayout activeMenu="My Tasks">
+    <DashboardLayout activeMenu={t("sidebar.myTasks")}>
       <div className="mt-5">
         {task && (
           <div className="grid grid-cols-1 md:grid-cols-4 mt-4">
@@ -90,24 +93,30 @@ const ViewTaskDetails = () => {
                     task?.status
                   )} px-4 py-0.5 rounded`}
                 >
-                  {task?.status}
+                  {t(`status.${task?.status?.replace(" ", "")}`)}
                 </div>
               </div>
 
               <div className="mt-4">
-                <InfoBox label="Description" value={task?.description} />
+                <InfoBox
+                  label={t("tasks.description")}
+                  value={task?.description}
+                />
               </div>
 
               <div className="grid grid-cols-12 gap-4 mt-4">
                 <div className="col-span-6 md:col-span-4">
-                  <InfoBox label="Priority" value={task?.priority} />
+                  <InfoBox
+                    label={t("tasks.priority")}
+                    value={t(`priority.${task?.priority}`)}
+                  />
                 </div>
                 <div className="col-span-6 md:col-span-4">
                   <InfoBox
-                    label="Due Date"
+                    label={t("tasks.dueDate")}
                     value={
                       task?.dueDate
-                        ? moment(task?.dueDate).format("Do MMM YYYY")
+                        ? formatDate(task?.dueDate, i18n.language)
                         : "N/A"
                     }
                   />
@@ -115,7 +124,7 @@ const ViewTaskDetails = () => {
 
                 <div className="col-span-6 md:col-span-4">
                   <label className="text-xs font-medium text-slate-500">
-                    Assigned To
+                    {t("tasks.assignTo")}
                   </label>
                   <AvatarGroup
                     avatars={
@@ -128,7 +137,7 @@ const ViewTaskDetails = () => {
 
               <div className="mt-2">
                 <label className="text-xs font-medium text-slate-500">
-                  Todo Checklist
+                  {t("tasks.todoChecklist")}
                 </label>
                 {task?.todoChecklist?.map((item, index) => (
                   <TodoChecklist
@@ -143,7 +152,7 @@ const ViewTaskDetails = () => {
               {task?.attachments?.length > 0 && (
                 <div className="mt-2">
                   <label className="text-xs font-medium text-slate-500">
-                    Attachments
+                    {t("tasks.attachments")}
                   </label>
 
                   {task?.attachments.map((link, index) => (

@@ -2,16 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { UserContext } from "../../context/userContext";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import moment from "moment";
-import { addThousandsSeparator } from "../../utils/helper";
+
+import { addThousandsSeparator, formatDate } from "../../utils/helper";
 import InfoCard from "../../components/Cards/InfoCard";
 import { LuArrowRight } from "react-icons/lu";
 import TaskListTable from "../../components/TaskListTable";
 import CustomPieChart from "../../components/Charts/CustomPieChart";
 import CustomBarChart from "../../components/Charts/CustomBarChart";
+import { useTranslation } from "react-i18next";
 
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
 
@@ -19,6 +21,8 @@ const Dashboard = () => {
   useUserAuth();
 
   const { user } = useContext(UserContext);
+
+  const { i18n, t } = useTranslation();
 
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
@@ -72,20 +76,24 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <DashboardLayout activeMenu="Dashboard">
+    <DashboardLayout activeMenu={t("sidebar.dashboard")}>
       <div className="card my-5">
         <div className="">
           <div className="col-span-3">
-            <h3 className="text-xl md:text-2xl">Good Morning! {user?.name}</h3>
+            <h3 className="text-xl md:text-2xl">
+              {t("app.greeting")} {user?.name}
+            </h3>
             <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">
-              {moment().format("dddd Do MMM YYYY")}
+              {/* {moment().format("dddd Do MMM YYYY")} */}
+
+              {formatDate(new Date(), i18n.language, "long")}
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
           <InfoCard
-            label=" Total Tasks"
+            label={t("dashboard.totalTasks")}
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.All || 0
             )}
@@ -93,7 +101,7 @@ const Dashboard = () => {
           />
 
           <InfoCard
-            label=" Pending Tasks"
+            label={t("dashboard.pendingTasks")}
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.Pending || 0
             )}
@@ -101,7 +109,7 @@ const Dashboard = () => {
           />
 
           <InfoCard
-            label=" In Progress Tasks"
+            label={t("dashboard.inProgressTasks")}
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.InProgress || 0
             )}
@@ -109,7 +117,7 @@ const Dashboard = () => {
           />
 
           <InfoCard
-            label=" Completed Tasks"
+            label={t("dashboard.completedTasks")}
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.Completed || 0
             )}
@@ -122,7 +130,7 @@ const Dashboard = () => {
         <div className="">
           <div className="card">
             <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Distribution</h5>
+              <h5 className="font-medium">{t("dashboard.taskDistribution")}</h5>
             </div>
 
             <CustomPieChart data={pieChartData} colors={COLORS} />
@@ -132,7 +140,7 @@ const Dashboard = () => {
         <div className="">
           <div className="card">
             <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Priority Levels</h5>
+              <h5 className="font-medium">{t("dashboard.taskPriority")}</h5>
             </div>
 
             <CustomBarChart data={barChartData} />
@@ -142,9 +150,10 @@ const Dashboard = () => {
         <div className="md:col-span-2">
           <div className="card">
             <div className="flex items-center justify-between">
-              <h5 className="text-lg">Recent Tasks</h5>
+              <h5 className="text-lg">{t("dashboard.recentTasks")}</h5>
               <button className="card-btn" onClick={onSeeMore}>
-                See All <LuArrowRight className="text-base" />
+                {t("common.seeAll")}
+                <LuArrowRight className="text-base" />
               </button>
             </div>
 

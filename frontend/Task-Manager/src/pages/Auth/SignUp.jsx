@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/uploadImage";
 import { UserContext } from "../../context/userContext";
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -15,6 +16,8 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [adminInviteToken, setAdminInviteToken] = useState("");
+
+  const { t } = useTranslation();
 
   const [error, setError] = useState(null);
 
@@ -28,17 +31,17 @@ const SignUp = () => {
     let profileImageUrl = "";
 
     if (!fullName) {
-      setError("Please enter full name");
+      setError(t("auth.errorFullname"));
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+      setError(t("auth.errorEmail"));
       return;
     }
 
     if (!password) {
-      setError("Please enter the password");
+      setError(t("auth.errorPass"));
       return;
     }
     setError("");
@@ -75,7 +78,7 @@ const SignUp = () => {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
-        setError("Something went wrong. Please try again.");
+        setError(t("auth.errorAuth"));
       }
     }
   };
@@ -83,9 +86,11 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
-        <h3 className="text=xl font-semibold text-black">Create an Account</h3>
+        <h3 className="text=xl font-semibold text-black">
+          {t("auth.createAccount")}
+        </h3>
         <p className="text-xs text-slate-700 mt-[5px] mb-6">
-          Join us today by entering your details below.
+          {t("auth.joinUs")}
         </p>
 
         <form onSubmit={handleSignUp}>
@@ -94,7 +99,7 @@ const SignUp = () => {
             <Input
               value={fullName}
               onChange={({ target }) => setFullName(target.value)}
-              label="Full Name"
+              label={t("auth.fullname")}
               placeholder="John"
               type="text"
             />
@@ -102,7 +107,7 @@ const SignUp = () => {
             <Input
               value={email}
               onChange={({ target }) => setEmail(target.value)}
-              label="Email Address"
+              label={t("auth.email")}
               placeholder="john@example.com"
               type="text"
             />
@@ -110,29 +115,29 @@ const SignUp = () => {
             <Input
               value={password}
               onChange={({ target }) => setPassword(target.value)}
-              label="Password"
-              placeholder="Min 8 Characters"
+              label={t("auth.password")}
+              placeholder={t("auth.min8Char")}
               type="password"
             />
 
             <Input
               value={adminInviteToken}
               onChange={({ target }) => setAdminInviteToken(target.value)}
-              label="Admin Invite Token"
-              placeholder="6 Digit Code"
+              label={t("auth.token")}
+              placeholder={t("auth.digitcode")}
               type="text"
             />
           </div>
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
           <button type="submit" className="btn-primary">
-            SIGN UP
+            {t("auth.signUp")}
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">
-            Already an account?{" "}
+            {t("auth.haveAccount")}{" "}
             <Link className="font-medium text-primary underline" to="/login">
-              Login
+              {t("auth.login")}
             </Link>
           </p>
         </form>

@@ -6,9 +6,11 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
+import { useTranslation } from "react-i18next";
 
 const ManageTasks = () => {
   const [allTasks, setAllTasks] = useState([]);
+  const { t } = useTranslation();
 
   const [tabs, setTabs] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All");
@@ -72,18 +74,20 @@ const ManageTasks = () => {
   }, [filterStatus]);
 
   return (
-    <DashboardLayout activeMenu="Manage Tasks">
+    <DashboardLayout activeMenu={t("sidebar.manageTasks")}>
       <div className="my-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl md:text-xl font-medium">My Tasks</h2>
+            <h2 className="text-xl md:text-xl font-medium">
+              {t("tasks.myTasks")}
+            </h2>
 
             <button
               className="flex lg:hidden download-btn"
               onClick={handleDownloadReport}
             >
               <LuFileSpreadsheet className="text-lg" />
-              Download Report
+              {t("dashboard.downloadReport")}
             </button>
           </div>
 
@@ -100,7 +104,7 @@ const ManageTasks = () => {
                 onClick={handleDownloadReport}
               >
                 <LuFileSpreadsheet className="text-lg" />
-                Download Report
+                {t("dashboard.downloadReport")}
               </button>
             </div>
           )}

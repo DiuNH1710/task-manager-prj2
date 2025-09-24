@@ -13,9 +13,11 @@ import toast from "react-hot-toast";
 import moment from "moment";
 import Modal from "../../components/Modal";
 import DeleteAlert from "../../components/DeleteAlert";
+import { useTranslation } from "react-i18next";
 
 const CreateTask = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   const { taskId } = location.state || {};
   const navigate = useNavigate();
 
@@ -196,31 +198,31 @@ const CreateTask = () => {
   }, [taskId]);
 
   return (
-    <DashboardLayout activeMenu="Create Task">
+    <DashboardLayout activeMenu={t("sidebar.createTask")}>
       <div className="mt-5">
         <div className="grid grid-cols-1 md:grid-cols-4 mt-4">
           <div className="form-card col-span-3">
             <div className="flex items-center justify-between">
               <h2 className="text-xl md:text-xl font-medium">
-                {taskId ? "Update Task" : "Create Task"}
+                {taskId ? t("tasks.updateTask") : t("tasks.createTask")}
               </h2>
               {taskId && (
                 <button
                   className="flex items-center gap-1.5 text-[13px] font-medium text-rose-500 bg-rose-50 rounded px-2 py-1 border border-rose-100 hover:border-rose-300 cursor-pointer"
                   onClick={() => setOpenDeleteAlert(true)}
                 >
-                  <LuTrash2 className="text-base" /> Delete
+                  <LuTrash2 className="text-base" /> {t("tasks.delete")}
                 </button>
               )}
             </div>
 
             <div className="mt-4">
               <label className="text-xs font-medium text-slate-600">
-                Task Title
+                {t("tasks.taskTitle")}
               </label>
 
               <input
-                placeholder="Create App UI"
+                placeholder={t("tasks.taskTitlePlaceholder")}
                 className="form-input"
                 value={taskData.title}
                 onChange={({ target }) => {
@@ -230,11 +232,11 @@ const CreateTask = () => {
             </div>
             <div className="mt-3">
               <label className="text-xs font-medium text-slate-600">
-                Description
+                {t("tasks.description")}
               </label>
 
               <textarea
-                placeholder="Describe task"
+                placeholder={t("tasks.describeTask")}
                 className="form-input"
                 rows={4}
                 value={taskData.description}
@@ -247,7 +249,7 @@ const CreateTask = () => {
             <div className="grid grid-cols-12 gap-4 mt-2">
               <div className="col-span-6 md:col-span-4">
                 <label className="text-xs font-medium text-slate-600">
-                  Priority
+                  {t("tasks.priority")}
                 </label>
                 <SelectDropdown
                   options={PRIORITY_DATA}
@@ -259,13 +261,12 @@ const CreateTask = () => {
 
               <div className="col-span-6 md:col-span-4">
                 <label className="text-xs font-medium text-slate-600">
-                  Due date
+                  {t("tasks.dueDate")}
                 </label>
 
                 <input
                   type="date"
                   className="form-input"
-                  placeholder="Create App UI"
                   value={taskData.dueDate}
                   onChange={({ target }) =>
                     handleValueChange("dueDate", target.value)
@@ -275,7 +276,7 @@ const CreateTask = () => {
 
               <div className="col-span-12 md:col-span-3">
                 <label className="text-xs font-medium text-slate-600">
-                  Assign To
+                  {t("tasks.assignTo")}
                 </label>
 
                 <SelectUsers
@@ -289,7 +290,7 @@ const CreateTask = () => {
 
             <div className="mt-3">
               <label className="text-xs font-medium text-slate-600">
-                TODO Checklist
+                {t("tasks.todoChecklist")}
               </label>
 
               <TodoListInput
@@ -301,7 +302,7 @@ const CreateTask = () => {
             </div>
             <div className="mt-3">
               <label className="text-xs font-medium text-slate-600">
-                Add Attachments
+                {t("tasks.addAttachments")}
               </label>
 
               <AddAttachmentsInput
@@ -321,7 +322,7 @@ const CreateTask = () => {
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                {taskId ? "UPDATE TASK" : "CREATE TASK"}
+                {taskId ? t("tasks.updateTask") : t("tasks.createTask")}
               </button>
             </div>
           </div>

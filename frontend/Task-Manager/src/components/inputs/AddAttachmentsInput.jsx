@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiMiniPlus, HiOutlineTrash } from "react-icons/hi2";
 import { LuPaperclip } from "react-icons/lu";
 
 const AddAttachmentsInput = ({ attachments, setAttachments }) => {
   const [option, setOption] = useState("");
+  const { t } = useTranslation();
 
   // Function to handle adding an option
 
@@ -48,14 +50,14 @@ const AddAttachmentsInput = ({ attachments, setAttachments }) => {
           <LuPaperclip className="text-gray-400" />
           <input
             type="text"
-            placeholder="Add File Link"
+            placeholder={t("tasks.addFileLink")}
             value={option}
             onChange={({ target }) => setOption(target.value)}
             className="w-full text-[13px] text-black outline-none bg-white py-2"
           />
         </div>
         <button className="card-btn text-nowrap" onClick={hanldeAddOption}>
-          <HiMiniPlus className="text-lg" /> Add
+          <HiMiniPlus className="text-lg" /> {t("tasks.add")}
         </button>
       </div>
     </div>

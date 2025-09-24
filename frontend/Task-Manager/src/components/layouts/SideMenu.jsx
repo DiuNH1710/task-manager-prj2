@@ -3,8 +3,10 @@ import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import avatar from "../../assets/images/avatar.jpg";
+import { useTranslation } from "react-i18next";
 
 const SideMenu = ({ activeMenu }) => {
+  const { t } = useTranslation();
   const { user, clearUser } = useContext(UserContext);
   const [sideMenuData, setSideMenuData] = useState([]);
 
@@ -60,14 +62,14 @@ const SideMenu = ({ activeMenu }) => {
         <button
           key={`menu_${index}`}
           className={`w-full flex items-center gap-4 text-[15px] ${
-            activeMenu == item.label
+            activeMenu == t(item.label)
               ? "text-primary bg-linear-to-r from-blue-50/40 to-blue-100/50 border-r-3"
               : ""
           } py-3 px-6 cursor-pointer`}
           onClick={() => handleclick(item.path)}
         >
           <item.icon className="text-xl" />
-          {item.label}
+          {t(item.label)}
         </button>
       ))}
     </div>

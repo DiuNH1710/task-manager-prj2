@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const CustomLegend = ({ payload }) => {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap justify-center gap-2 mt-4 space-x-6">
       {payload.map((entry, index) => (
@@ -10,7 +12,7 @@ const CustomLegend = ({ payload }) => {
             style={{ backgroundColor: entry.color }}
           ></div>
           <span className="text-xs text-gray-700 font-medium">
-            {entry.value}
+            {t(`status.${entry.value.replace(" ", "")}`)}
           </span>
         </div>
       ))}

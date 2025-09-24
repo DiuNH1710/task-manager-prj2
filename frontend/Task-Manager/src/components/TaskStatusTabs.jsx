@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const TaskStatusTabs = ({ tabs, activeTab, setActiveTab }) => {
+  const { t } = useTranslation();
   return (
     <div className="my-2">
       <div className="flex">
@@ -15,7 +17,9 @@ const TaskStatusTabs = ({ tabs, activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(tab.label)}
           >
             <div className="flex items-center">
-              <span className="text-xs">{tab.label}</span>
+              <span className="text-xs">
+                {t(`status.${tab.label.replace(" ", "")}`)}
+              </span>
               <span
                 className={`text-xs ml-2 px-2 py-0.5 rounded-full ${
                   activeTab === tab.label

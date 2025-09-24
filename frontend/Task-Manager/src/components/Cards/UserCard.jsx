@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const UserCard = ({ userInfo }) => {
+  const { t } = useTranslation();
   return (
     <div className="user-card p-2">
       <div className="flex items-center justify-between">
@@ -44,6 +46,7 @@ const UserCard = ({ userInfo }) => {
 export default UserCard;
 
 const StatCard = ({ label, count, status }) => {
+  const { t } = useTranslation();
   const getStatusTagColor = () => {
     switch (status) {
       case "In Progress":
@@ -58,7 +61,8 @@ const StatCard = ({ label, count, status }) => {
     <div
       className={`flex-1 text-[10px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded`}
     >
-      <span className="text-[12px] font-semibold">{count}</span> <br /> {label}
+      <span className="text-[12px] font-semibold">{count}</span> <br />{" "}
+      {t(`status.${status.replace(" ", "")}`)}
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiMiniPlus, HiOutlineTrash } from "react-icons/hi2";
 const TodoListInput = ({ todoList, setTodoList }) => {
   const [option, setOption] = useState("");
+
+  const { t } = useTranslation();
 
   // Function to handle adding an option
   const handleAddOption = () => {
@@ -42,14 +45,14 @@ const TodoListInput = ({ todoList, setTodoList }) => {
       <div className="flex items-center gap-5 mt-4">
         <input
           type="text"
-          placeholder="Enter Task"
+          placeholder={t("tasks.enterTask")}
           value={option}
           onChange={({ target }) => setOption(target.value)}
           className="w-full text-[13px] text-black outline-none bg-white border border-gray-100 px-3 py-2 rounded-md"
         />
 
         <button className="card-btn text-nowrap" onClick={handleAddOption}>
-          <HiMiniPlus className="text-lg" /> Add
+          <HiMiniPlus className="text-lg" /> {t("tasks.add")}
         </button>
       </div>
     </div>

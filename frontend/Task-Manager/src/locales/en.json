@@ -1,0 +1,89 @@
+{
+  "app": {
+    "title": "Task Manager",
+    "greeting": "Good Morning!"
+  },
+  "dashboard": {
+    "taskDistribution": "Task Distribution",
+    "taskPriority": "Task Priority Levels",
+    "recentTasks": "Recent Tasks",
+    "myTasks": "My Tasks",
+    "manageTasks": "Manage Tasks",
+    "downloadReport": "Download Report",
+    "totalTasks": "Total Tasks",
+    "pendingTasks": "Pending Tasks",
+    "inProgressTasks": "In Progress Tasks",
+    "completedTasks": "Completed Tasks"
+  },
+  "tasks": {
+    "status": "Status",
+    "priority": "Priority",
+    "createdOn": "Created On",
+    "nameTask": "Name",
+    "createTask": "Create Task",
+    "updateTask": "Update Task",
+    "taskTitle": "Task Title",
+    "taskTitlePlaceholder": "Create App UI",
+    "description": "Description",
+    "describeTask": "Describe your task",
+    "dueDate": "Due Date",
+    "assignTo": "Assign To",
+    "addMembers": "Add Members",
+    "todoChecklist": "To-Do Checklist",
+    "enterTask": "Enter Task",
+    "attachments": "Attachments",
+    "addAttachments": "Add Attachments",
+    "addFileLink": "Add file or link",
+    "add": "Add",
+    "delete": "Delete",
+    "teamMembers": "Team Members",
+    "myTasks": "My Tasks",
+    "taskDone": "Task Done",
+    "startDate": "Start Date"
+  },
+  "auth": {
+    "logOut": "Log Out",
+    "welcomeBack": "Welcome Back,",
+    "enterDetails": "Please enter your details to log in",
+    "email": "Email Address",
+    "password": "Password",
+    "min8Char": "Min 8 characters",
+    "login": "Log In",
+    "notAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "createAccount": "Create an Account",
+    "joinUs": "Join us today by entering your details below.",
+    "fullname": "Full Name",
+    "token": "Admin Invite Token",
+    "digitcode": "6 Digit Code",
+    "haveAccount": "Already an account?",
+
+    "errorPass": "Please enter the password",
+    "errorAuth": "Something went wrong. Please try again.",
+    "errorFullname": "Please enter full name",
+    "errorEmail": "Please enter a valid email address"
+  },
+  "common": {
+    "seeAll": "See All",
+    "count": "Count"
+  },
+  "status": {
+    "All": "All",
+    "Pending": "Pending",
+    "InProgress": "In Progress",
+    "Completed": "Completed"
+  },
+  "priority": {
+    "High": "High",
+    "Medium": "Medium",
+    "Low": "Low"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "manageTasks": "Manage Tasks",
+    "createTask": "Create Task",
+    "teamMembers": "Team Members",
+    "logout": "Log Out",
+    "myTasks": "My Tasks"
+  }
+}

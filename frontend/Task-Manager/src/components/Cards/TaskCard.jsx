@@ -3,6 +3,8 @@ import Progress from "../Progress";
 import AvatarGroup from "../AvatarGroup";
 import { LuPaperclip } from "react-icons/lu";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
+import { formatDate } from "../../utils/helper";
 
 const TaskCard = ({
   key,
@@ -19,6 +21,8 @@ const TaskCard = ({
   todoChecklist,
   onClick,
 }) => {
+  const { t, i18n } = useTranslation();
+
   const getStatusTagColor = () => {
     switch (status) {
       case "In Progress":
@@ -49,12 +53,12 @@ const TaskCard = ({
         <div
           className={`text-[11px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded`}
         >
-          {status}
+          {t(`status.${status.replace(" ", "")}`)}
         </div>
         <div
           className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py-0.5 rounded`}
         >
-          {priority} Priority
+          {t(`priority.${priority}`)}
         </div>
       </div>
 
@@ -75,7 +79,7 @@ const TaskCard = ({
           {description}
         </p>
         <p className="text-[13px] text-gray-700/80 font-medium mt-2 mb-2 leading-[18px]">
-          Task Done:{" "}
+          {t("tasks.taskDone")}:{" "}
           <span className="font-semibold text-gray-700">
             {completedTodoCount}/{todoChecklist?.length || 0}
           </span>
@@ -87,16 +91,20 @@ const TaskCard = ({
       <div className="px-4">
         <div className="flex items-center justify-between my-1">
           <div>
-            <label className="text-xs text-gray-500">Start Date</label>
+            <label className="text-xs text-gray-500">
+              {t("tasks.startDate")}
+            </label>
             <p className="text-[13px] font-medium text-gray-900">
-              {moment(createdAt).format("Do MMM YYYY")}
+              {createdAt ? formatDate(createdAt, i18n.language) : "NA"}
             </p>
           </div>
 
           <div>
-            <label className="text-xs text-gray-500">Due Date</label>
+            <label className="text-xs text-gray-500">
+              {t("tasks.dueDate")}
+            </label>
             <p className="text-[13px] font-medium text-gray-900">
-              {moment(dueDate).format("Do MMM YYYY")}
+              {dueDate ? formatDate(dueDate, i18n.language) : "NA"}
             </p>
           </div>
         </div>

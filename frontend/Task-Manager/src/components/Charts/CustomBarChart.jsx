@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -12,6 +13,7 @@ import {
 } from "recharts";
 
 const CustomBarChart = ({ data }) => {
+  const { t } = useTranslation();
   // Function to alternate colors
 
   const getBarColor = (entry) => {
@@ -35,10 +37,10 @@ const CustomBarChart = ({ data }) => {
       return (
         <div className="bg-white shadow-md rounded-lg p-2 border border-gray-300">
           <p className="textxs font-semibold text-purple-800 mb-1">
-            {payload[0].payload.priority}
+            {t(`priority.${payload[0].payload.priority}`)}
           </p>
           <p className="text-sm text-gray-600">
-            Count:{" "}
+            {t("common.count")}:{" "}
             <span className="text-sm font-medium text-gray-900">
               {payload[0].payload.count}
             </span>
@@ -48,6 +50,7 @@ const CustomBarChart = ({ data }) => {
     }
     return null;
   };
+
   return (
     <div className="bg-white mt-6">
       <ResponsiveContainer width="100%" height={300}>
@@ -57,6 +60,7 @@ const CustomBarChart = ({ data }) => {
             dataKey="priority"
             tick={{ fontSize: 12, fill: "#555" }}
             stroke="none"
+            tickFormatter={(value) => t(`priority.${value}`)}
           />
           <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
           <Tooltip content={CustomTooltip} cursor={{ fill: "transparent" }} />

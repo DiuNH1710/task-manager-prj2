@@ -1,0 +1,90 @@
+{
+  "app": {
+    "title": "Trình quản lý công việc",
+    "greeting": "Chào buổi sáng!"
+  },
+  "dashboard": {
+    "taskDistribution": "Phân bố công việc",
+    "taskPriority": "Mức độ ưu tiên",
+    "recentTasks": "Công việc gần đây",
+    "myTasks": "Công việc của tôi",
+    "manageTasks": "Quản lý công việc",
+    "downloadReport": "Tải báo cáo",
+    "totalTasks": "Tổng số công việc",
+    "pendingTasks": "Công việc đang chờ",
+    "inProgressTasks": "Công việc đang thực hiện",
+    "completedTasks": "Công việc đã hoàn thành"
+  },
+  "tasks": {
+    "status": "Trạng thái",
+    "priority": "Mức độ ưu tiên",
+    "createdOn": "Ngày tạo",
+    "nameTask": "Tên công việc",
+    "createTask": "Tạo công việc",
+    "updateTask": "Cập nhật công việc",
+    "taskTitle": "Tiêu đề công việc",
+    "taskTitlePlaceholder": "Tạo giao diện ứng dụng",
+    "description": "Mô tả",
+    "describeTask": "Mô tả công việc của bạn",
+    "dueDate": "Hạn chót",
+    "assignTo": "Giao cho",
+    "addMembers": "Thêm thành viên",
+    "todoChecklist": "Danh sách cần làm",
+    "enterTask": "Nhập công việc",
+    "attachments": "Tệp đính kèm",
+    "addAttachments": "Thêm tệp đính kèm",
+    "addFileLink": "Thêm tệp hoặc liên kết",
+    "add": "Thêm",
+    "delete": "Xóa",
+    "teamMembers": "Thành viên nhóm",
+    "myTasks": "Công việc của tôi",
+    "taskDone": "Đã hoàn thành",
+    "startDate": "Ngày bắt đầu"
+  },
+  "auth": {
+    "logOut": "Đăng xuất",
+    "welcomeBack": "Chào mừng quay lại,",
+    "enterDetails": "Vui lòng nhập thông tin để đăng nhập",
+    "email": "Địa chỉ Email",
+    "password": "Mật khẩu",
+    "min8Char": "Tối thiểu 8 ký tự",
+    "login": "Đăng nhập",
+    "notAccount": "Chưa có tài khoản?",
+    "signUp": "Đăng ký",
+
+    "createAccount": "Tạo tài khoản",
+    "joinUs": "Tham gia ngay hôm nay bằng cách nhập thông tin của bạn bên dưới!",
+    "fullname": "Họ tên",
+    "token": "Nhập mã mời của admin",
+    "digitcode": "Mã 6 chữ số",
+    "haveAccount": "Bạn đã có tài khoản?",
+
+    "errorPass": "Vui lòng nhập mật khẩu",
+    "errorAuth": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "errorFullname": "Vui lòng nhập họ và tên",
+    "errorEmail": "Vui lòng nhập địa chỉ email hợp lệ"
+  },
+  "common": {
+    "seeAll": "Xem tất cả",
+    "count": "Số lượng"
+  },
+  "status": {
+    "All": "Tất cả",
+    "Pending": "Đang chờ",
+    "InProgress": "Đang thực hiện",
+    "Completed": "Hoàn thành"
+  },
+  "priority": {
+    "High": "Cao",
+    "Medium": "Trung bình",
+    "Low": "Thấp"
+  },
+  "sidebar": {
+    "dashboard": "Trang chủ",
+    "manageTasks": "Quản lý công việc",
+    "createTask": "Tạo công việc",
+    "teamMembers": "Thành viên nhóm",
+    "logout": "Đăng xuất",
+    "myTasks": "Công việc của tôi"
+  }
+}

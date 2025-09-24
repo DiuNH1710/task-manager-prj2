@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LuChevronDown } from "react-icons/lu";
 
 const SelectDropdown = ({ options, value, onChange, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleSelect = (option) => {
     onChange(option);
@@ -16,7 +19,7 @@ const SelectDropdown = ({ options, value, onChange, placeholder }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         {value
-          ? options.find((opt) => opt.value === value)?.label
+          ? t(options.find((opt) => opt.value === value)?.label)
           : placeholder}
         <span className="ml-2">
           {isOpen ? (
@@ -36,7 +39,7 @@ const SelectDropdown = ({ options, value, onChange, placeholder }) => {
               key={option.value}
               onClick={() => handleSelect(option.value)}
             >
-              {option.label}
+              {t(option.label)}
             </div>
           ))}
         </div>
