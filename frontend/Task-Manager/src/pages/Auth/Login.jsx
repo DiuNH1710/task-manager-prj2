@@ -53,7 +53,7 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
-        setError(error.response.data.message);
+        setError(t("auth.invalidEmailorPass"));
       } else {
         setError(t("auth.errorAuth"));
       }

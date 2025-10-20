@@ -62,7 +62,8 @@
     "errorPass": "Vui lòng nhập mật khẩu",
     "errorAuth": "Đã xảy ra lỗi. Vui lòng thử lại.",
     "errorFullname": "Vui lòng nhập họ và tên",
-    "errorEmail": "Vui lòng nhập địa chỉ email hợp lệ"
+    "errorEmail": "Vui lòng nhập địa chỉ email hợp lệ",
+    "invalidEmailorPass": "Email hoặc mật khẩu không hợp lệ"
   },
   "common": {
     "seeAll": "Xem tất cả",

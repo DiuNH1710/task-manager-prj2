@@ -61,7 +61,8 @@
     "errorPass": "Please enter the password",
     "errorAuth": "Something went wrong. Please try again.",
     "errorFullname": "Please enter full name",
-    "errorEmail": "Please enter a valid email address"
+    "errorEmail": "Please enter a valid email address",
+    "invalidEmailorPass": "Invalid email or password"
   },
   "common": {
     "seeAll": "See All",
