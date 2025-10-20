@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Task Manager",
-    "greeting": "Good Morning!"
+    "greeting": "Welcome Back!"
   },
   "dashboard": {
     "taskDistribution": "Task Distribution",
@@ -85,5 +85,22 @@
     "teamMembers": "Team Members",
     "logout": "Log Out",
     "myTasks": "My Tasks"
+  },
+  "errors": {
+    "titleRequired": "Title is required.",
+    "descriptionRequired": "Description is required.",
+    "dueDateRequired": "Due date is required.",
+    "assignRequired": "Task not assigned to any member.",
+    "todoRequired": "Add at least one to-do task."
+  },
+
+  "toast": {
+    "createSuccess": "Task created successfully",
+    "updateSuccess": "Task updated successfully",
+    "deleteSuccess": "Task deleted successfully"
+  },
+  "deleteModal": {
+    "title": "Delete Task",
+    "content": "Are you sure you want to delete this task?"
   }
 }

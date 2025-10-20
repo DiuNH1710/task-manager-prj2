@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Trình quản lý công việc",
-    "greeting": "Chào buổi sáng!"
+    "greeting": "Xin chào!"
   },
   "dashboard": {
     "taskDistribution": "Phân bố công việc",
@@ -86,5 +86,22 @@
     "teamMembers": "Thành viên nhóm",
     "logout": "Đăng xuất",
     "myTasks": "Công việc của tôi"
+  },
+  "errors": {
+    "titleRequired": "Vui lòng nhập tiêu đề.",
+    "descriptionRequired": "Vui lòng nhập mô tả.",
+    "dueDateRequired": "Vui lòng chọn hạn hoàn thành.",
+    "assignRequired": "Công việc chưa được giao cho thành viên nào.",
+    "todoRequired": "Vui lòng thêm ít nhất một việc cần làm."
+  },
+
+  "toast": {
+    "createSuccess": "Tạo công việc thành công",
+    "updateSuccess": "Cập nhật công việc thành công",
+    "deleteSuccess": "Xóa công việc thành công"
+  },
+  "deleteModal": {
+    "title": "Xóa công việc",
+    "content": "Bạn có chắc muốn xóa công việc này không?"
   }
 }

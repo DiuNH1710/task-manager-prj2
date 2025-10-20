@@ -128,7 +128,8 @@ const ViewTaskDetails = () => {
                   </label>
                   <AvatarGroup
                     avatars={
-                      task?.assignedTo.map((item) => item?.profileImage) || []
+                      task?.assignedTo.map((item) => item?.profileImageUrl) ||
+                      []
                     }
                     maxVisible={3}
                   />

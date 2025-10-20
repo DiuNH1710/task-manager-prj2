@@ -69,7 +69,7 @@ const CreateTask = () => {
         todoChecklist: todoList,
       });
 
-      toast.success("Task created successfully");
+      toast.success(t("toast.createSuccess"));
       clearData();
     } catch (error) {
       console.error("Error creating task:", error);
@@ -102,7 +102,7 @@ const CreateTask = () => {
           todoChecklist: todoList,
         }
       );
-      toast.success("Task updated successfully");
+      toast.success(t("toast.updateSuccess"));
     } catch (error) {
       console.error("Error updating task:", error);
       setLoading(false);
@@ -114,27 +114,27 @@ const CreateTask = () => {
   const handleSubmit = async () => {
     setError(null);
     if (!taskData.title.trim()) {
-      setError("Title is required.");
+      setError(t("errors.titleRequired"));
       return;
     }
 
     if (!taskData.description.trim()) {
-      setError("Description is required.");
+      setError(t("errors.descriptionRequired"));
       return;
     }
 
     if (!taskData.dueDate) {
-      setError("Due date is required.");
+      setError(t("errors.dueDateRequired"));
       return;
     }
 
     if (taskData.assignedTo?.length === 0) {
-      setError("Task not assigned to any member");
+      setError(t("errors.assignRequired"));
       return;
     }
 
     if (taskData.todoChecklist?.length === 0) {
-      setError("Add atleast one todo task");
+      setError(t("errors.todoRequired"));
       return;
     }
 
@@ -180,7 +180,7 @@ const CreateTask = () => {
     try {
       await axiosInstance.delete(API_PATHS.TASKS.DELETE_TASK(taskId));
       setOpenDeleteAlert(false);
-      toast.success("Task deleted successfully");
+      toast.success(t("toast.deleteSuccess"));
       navigate("/admin/tasks");
     } catch (error) {
       console.error(
@@ -332,10 +332,10 @@ const CreateTask = () => {
       <Modal
         isOpen={openDeleteAlert}
         onClose={() => setOpenDeleteAlert(false)}
-        title="Delete Task"
+        title={t("deleteModal.title")}
       >
         <DeleteAlert
-          content="Are you sure you want to delete this task?"
+          content={t("deleteModal.content")}
           onDelete={() => deleteTask()}
         />
       </Modal>

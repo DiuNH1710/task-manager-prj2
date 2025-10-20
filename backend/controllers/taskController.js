@@ -326,9 +326,15 @@ const getUserDashboardData = async (req, res) => {
     const userId = req.user._id;
 
     // Fetch statistics for user-specific tasks
-    const totalTasks = await Task.countDocuments();
-    const pendingTasks = await Task.countDocuments({ status: "Pending" });
-    const completedTask = await Task.countDocuments({ status: "Completed" });
+    const totalTasks = await Task.countDocuments({ assignedTo: userId });
+    const pendingTasks = await Task.countDocuments({
+      assignedTo: userId,
+      status: "Pending",
+    });
+    const completedTask = await Task.countDocuments({
+      assignedTo: userId,
+      status: "Completed",
+    });
     const overdueTasks = await Task.countDocuments({
       assignedTo: userId,
       status: { $ne: "Completed" },
