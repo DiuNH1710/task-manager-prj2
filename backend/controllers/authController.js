@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require("google-auth-library");
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -42,6 +45,7 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
       profileImageUrl,
       role,
+      authProvider: "LOCAL",
     });
 
     // reuturn user data with jwt
@@ -67,6 +71,12 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    if (user.authProvider === "GOOGLE") {
+      return res.status(400).json({
+        message: "This account uses Google login",
+      });
     }
 
     // Check password
@@ -134,9 +144,86 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+// @desc Login with Google
+// @route POST /api/auth/google
+// @access Public
+
+const loginWithGoogle = async (req, res) => {
+  try {
+    const { credential, adminInviteToken } = req.body;
+
+    if (!credential) {
+      console.error("❌ Missing credential");
+      return res.status(400).json({ message: "Missing Google credential" });
+    }
+
+    let ticket;
+    try {
+      ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+    } catch (verifyError) {
+      console.error("❌ GOOGLE VERIFY ERROR:", verifyError);
+      return res.status(401).json({
+        message: "Google token verification failed",
+        error: verifyError.message,
+      });
+    }
+
+    const payload = ticket.getPayload();
+
+    const { email, name, picture, sub } = payload;
+
+    if (!email) {
+      console.error("❌ No email in Google payload");
+      return res.status(400).json({ message: "Google account has no email" });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      let role = "member";
+      if (
+        adminInviteToken &&
+        adminInviteToken === process.env.ADMIN_INVITE_TOKEN
+      ) {
+        role = "admin";
+      }
+
+      user = await User.create({
+        name: name || email.split("@")[0],
+        email,
+        profileImageUrl: picture,
+        authProvider: "GOOGLE",
+        googleId: sub,
+        role,
+      });
+    }
+
+    return res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profileImageUrl: user.profileImageUrl,
+      role: user.role,
+      token: jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      }),
+    });
+  } catch (error) {
+    console.error("❌ GOOGLE LOGIN GENERAL ERROR:", error);
+    return res.status(500).json({
+      message: "Google login failed",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  loginWithGoogle,
   getUserProfile,
   updateUserProfile,
 };

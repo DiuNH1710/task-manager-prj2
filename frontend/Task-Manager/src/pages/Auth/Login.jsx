@@ -7,6 +7,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 import { useTranslation } from "react-i18next";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +19,9 @@ const Login = () => {
   const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
+  const [adminInviteToken, setAdminInviteToken] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -60,6 +64,45 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      if (!credentialResponse?.credential) {
+        throw new Error("Missing Google credential");
+      }
+
+      const payload = {
+        credential: credentialResponse.credential,
+      };
+
+      if (isAdminLogin) {
+        if (!adminInviteToken.trim()) {
+          setError("Vui lòng nhập mã admin");
+          return;
+        }
+        payload.adminInviteToken = adminInviteToken.trim(); // tên field nên giống backend
+      }
+
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.GOOGLE_LOGIN,
+        payload
+      );
+
+      const { token, role } = response.data;
+
+      if (!token) {
+        throw new Error("Missing token");
+      }
+
+      localStorage.setItem("token", token);
+      updateUser(response.data);
+
+      navigate(role === "admin" ? "/admin/dashboard" : "/user/dashboard");
+    } catch (err) {
+      console.error("Google login error:", err?.response?.data || err);
+      setError(err?.response?.data?.message || t("auth.errorAuth"));
+    }
+  };
+
   return (
     <AuthLayout>
       <div className="lg:w-[70%] h-3/4 md:f-full flex flex-col justify-center ">
@@ -91,14 +134,48 @@ const Login = () => {
           <button type="submit" className="btn-primary">
             {t("auth.login")}
           </button>
-
-          <p className="text-[13px] text-slate-800 mt-3">
-            {t("auth.notAccount")}{" "}
-            <Link className="font-medium text-primary underline" to="/signup">
-              {t("auth.signUp")}
-            </Link>
-          </p>
         </form>
+
+        <div className="mt-3">
+          <label className="flex items-center gap-2 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              checked={isAdminLogin}
+              onChange={(e) => {
+                setIsAdminLogin(e.target.checked);
+                if (!e.target.checked) {
+                  setAdminInviteToken("");
+                }
+              }}
+            />
+            Đăng nhập Google với quyền Admin
+          </label>
+        </div>
+        {isAdminLogin && (
+          <Input
+            value={adminInviteToken}
+            onChange={(e) => setAdminInviteToken(e.target.value)}
+            label="Admin invite code"
+            placeholder="Nhập mã mời admin"
+            type="text"
+          />
+        )}
+
+        <div className="mt-4 flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() => {
+              setError(t("auth.errorAuth"));
+            }}
+          />
+        </div>
+
+        <p className="text-[13px] text-slate-800 mt-3">
+          {t("auth.notAccount")}{" "}
+          <Link className="font-medium text-primary underline" to="/signup">
+            {t("auth.signUp")}
+          </Link>
+        </p>
       </div>
     </AuthLayout>
   );
