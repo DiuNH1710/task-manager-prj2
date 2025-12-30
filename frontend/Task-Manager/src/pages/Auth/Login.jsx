@@ -129,6 +129,11 @@ const Login = () => {
             placeholder={t("auth.min8Char")}
             type="password"
           />
+          <p className="text-xs mt-2">
+            <Link to="/forgot-password" className="text-primary underline">
+              Quên mật khẩu?
+            </Link>
+          </p>
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
           <button type="submit" className="btn-primary">

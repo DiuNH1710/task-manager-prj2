@@ -5,6 +5,8 @@ const {
   getUserProfile,
   updateUserProfile,
   loginWithGoogle,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/authController");
 
 const { protect } = require("../middlewares/authMiddleware");
@@ -15,6 +17,10 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/google", loginWithGoogle);
+
+// Forgot / Reset password
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:token", resetPassword);
 
 router.get("/profile", protect, getUserProfile);
 router.put("/profile", protect, updateUserProfile);

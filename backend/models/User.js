@@ -11,7 +11,12 @@ const userSchema = new mongoose.Schema(
         return this.authProvider === "LOCAL";
       },
     },
-
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpire: {
+      type: Date,
+    },
     authProvider: {
       type: String,
       enum: ["LOCAL", "GOOGLE"],

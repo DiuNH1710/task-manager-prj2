@@ -2,6 +2,9 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
+const sendEmail = require("../utils/sendEmail");
+
+const crypto = require("crypto");
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -220,10 +223,131 @@ const loginWithGoogle = async (req, res) => {
   }
 };
 
+// @desc Forgot password
+// @route POST /api/auth/forgot-password
+// @access Public
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email });
+
+    /**
+     * SECURITY:
+     * Không trả lỗi nếu user không tồn tại
+     * Tránh leak danh sách email
+     */
+    if (!user) {
+      return res.status(200).json({
+        message: "If this email exists, reset link has been sent",
+      });
+    }
+
+    // Không cho reset password với Google account
+    if (user.authProvider === "GOOGLE") {
+      return res.status(400).json({
+        message: "Google account cannot reset password",
+      });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // Hash token trước khi lưu DB
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 phút
+
+    await user.save();
+
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+    await sendEmail({
+      to: user.email,
+      subject: "Reset your password",
+      html: `
+        <p>Bạn đã yêu cầu reset mật khẩu</p>
+        <p>Link có hiệu lực 15 phút:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+      `,
+    });
+
+    res.status(200).json({
+      message: "Reset password link sent (check email)",
+    });
+  } catch (error) {
+    console.error("❌ FORGOT PASSWORD ERROR:", error);
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+// @desc Reset password
+// @route POST /api/auth/reset-password/:token
+// @access Public
+// @desc Reset password
+// @route POST /api/auth/reset-password/:token
+// @access Public
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
+
+    // Hash token từ URL để so DB
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid or expired reset token",
+      });
+    }
+
+    // Hash password mới
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    // Clear reset fields
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Password reset successfully. Please login again.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   loginWithGoogle,
   getUserProfile,
   updateUserProfile,
+  forgotPassword,
+  resetPassword,
 };
