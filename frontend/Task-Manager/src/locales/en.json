@@ -39,7 +39,8 @@
     "teamMembers": "Team Members",
     "myTasks": "My Tasks",
     "taskDone": "Task Done",
-    "startDate": "Start Date"
+    "startDate": "Start Date",
+    "trash": "Trash"
   },
   "auth": {
     "logOut": "Log Out",
@@ -85,7 +86,8 @@
     "createTask": "Create Task",
     "teamMembers": "Team Members",
     "logout": "Log Out",
-    "myTasks": "My Tasks"
+    "myTasks": "My Tasks",
+    "trash": "Trash"
   },
   "errors": {
     "titleRequired": "Title is required.",

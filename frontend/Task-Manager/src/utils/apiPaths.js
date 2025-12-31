@@ -30,6 +30,10 @@ export const API_PATHS = {
 
     UPDATE_TASK_STATUS: (taskId) => `/api/tasks/${taskId}/status`,
     UPDATE_TODO_CHECKLIST: (taskId) => `/api/tasks/${taskId}/todo`,
+
+    GET_TRASH_TASKS: "/api/tasks/trash",
+    RESTORE_TASK: (id) => `/api/tasks/${id}/restore`,
+    DELETE_PERMANENT: (id) => `/api/tasks/${id}/permanent`,
   },
 
   REPORTS: {

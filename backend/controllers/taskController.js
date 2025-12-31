@@ -6,7 +6,7 @@ const Task = require("../models/Task");
 const getTasks = async (req, res) => {
   try {
     const { status } = req.query;
-    let filter = {};
+    let filter = { isDeleted: false };
     if (status) {
       filter.status = status;
     }
@@ -34,9 +34,11 @@ const getTasks = async (req, res) => {
     );
 
     // Status sumary counts
-    const allTasks = await Task.countDocuments(
-      req.user.role === "admin" ? {} : { assignedTo: req.user._id }
-    );
+    const allTasks = await Task.countDocuments({
+      isDeleted: false,
+      ...(req.user.role !== "admin" && { assignedTo: req.user._id }),
+    });
+
     const pendingTasks = await Task.countDocuments({
       ...filter,
       status: "Pending",
@@ -74,10 +76,11 @@ const getTasks = async (req, res) => {
 // @access Private (Requires JWT)
 const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id).populate(
-      "assignedTo",
-      "name email profileImageUrl"
-    );
+    const task = await Task.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    }).populate("assignedTo", "name email profileImageUrl");
+
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -130,7 +133,11 @@ const createTask = async (req, res) => {
 // @access Private (Requires JWT)
 const updateTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
+
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -163,9 +170,18 @@ const deleteTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ message: "Task not found" });
+    if (task.isDeleted) {
+      return res.status(400).json({ message: "Task already in trash" });
+    }
 
-    await task.deleteOne();
-    res.json({ message: "Task delete successfully" });
+    task.isDeleted = true;
+    task.deletedAt = new Date();
+    task.previousStatus = task.status;
+    task.status = "Pending"; // optional, để tránh logic khác bị ảnh hưởng
+
+    await task.save();
+
+    res.json({ message: "Task moved to trash" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -176,7 +192,11 @@ const deleteTask = async (req, res) => {
 // @access Private (Requires JWT)
 const updateTaskStatus = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
+
     if (!task) return res.status(404).json({ message: "Task not found" });
 
     const isAssigned = task.assignedTo.some(
@@ -205,13 +225,19 @@ const updateTaskStatus = async (req, res) => {
 const updateTaskChecklist = async (req, res) => {
   try {
     const { todoChecklist } = req.body;
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
 
-    if (!task) return res.status(404).json({ message: "Task not found" });
-    if (!task.assignedTo.includes(req.user._id) && req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to update checklist" });
+    if (!task) return res.status(401).json({ message: "Task not found" });
+
+    const isAssigned = task.assignedTo.some(
+      (id) => id.toString() === req.user._id.toString()
+    );
+
+    if (!isAssigned && req.user.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" });
     }
 
     task.todoChecklist = todoChecklist; // replace with updated checklist
@@ -250,10 +276,19 @@ const updateTaskChecklist = async (req, res) => {
 // @access Private/Admin
 const getDashboardData = async (req, res) => {
   try {
-    const totalTasks = await Task.countDocuments();
-    const pendingTasks = await Task.countDocuments({ status: "Pending" });
-    const completedTask = await Task.countDocuments({ status: "Completed" });
+    const totalTasks = await Task.countDocuments({ isDeleted: false });
+    const pendingTasks = await Task.countDocuments({
+      isDeleted: false,
+      status: "Pending",
+    });
+
+    const completedTask = await Task.countDocuments({
+      isDeleted: false,
+      status: "Completed",
+    });
+
     const overdueTasks = await Task.countDocuments({
+      isDeleted: false,
       status: { $ne: "Completed" },
       dueDate: { $lt: new Date() },
     });
@@ -261,12 +296,8 @@ const getDashboardData = async (req, res) => {
     // Ensure all possible statuses are included
     const taskStatuses = ["Pending", "In Progress", "Completed"];
     const taskDistributionRaw = await Task.aggregate([
-      {
-        $group: {
-          _id: "$status",
-          count: { $sum: 1 },
-        },
-      },
+      { $match: { isDeleted: false } },
+      { $group: { _id: "$status", count: { $sum: 1 } } },
     ]);
 
     const taskDistribution = taskStatuses.reduce((acc, status) => {
@@ -295,7 +326,7 @@ const getDashboardData = async (req, res) => {
     }, {});
 
     // Fetch recent 10 taskStatuses
-    const recentTasks = await Task.find()
+    const recentTasks = await Task.find({ isDeleted: false })
       .sort({ createdAt: -1 })
       .limit(10)
       .select("title status priority dueDate createdAt");
@@ -326,17 +357,24 @@ const getUserDashboardData = async (req, res) => {
     const userId = req.user._id;
 
     // Fetch statistics for user-specific tasks
-    const totalTasks = await Task.countDocuments({ assignedTo: userId });
+    const totalTasks = await Task.countDocuments({
+      assignedTo: userId,
+      isDeleted: false,
+    });
+
     const pendingTasks = await Task.countDocuments({
       assignedTo: userId,
+      isDeleted: false,
       status: "Pending",
     });
     const completedTask = await Task.countDocuments({
       assignedTo: userId,
+      isDeleted: false,
       status: "Completed",
     });
     const overdueTasks = await Task.countDocuments({
       assignedTo: userId,
+      isDeleted: false,
       status: { $ne: "Completed" },
       dueDate: { $lt: new Date() },
     });
@@ -345,7 +383,7 @@ const getUserDashboardData = async (req, res) => {
     const taskStatuses = ["Pending", "In Progress", "Completed"];
     const taskDistributionRaw = await Task.aggregate([
       {
-        $match: { assignedTo: userId },
+        $match: { assignedTo: userId, isDeleted: false },
       },
       {
         $group: {
@@ -367,7 +405,7 @@ const getUserDashboardData = async (req, res) => {
     const taskPriorities = ["Low", "Medium", "High"];
     const taskPriorityLevelsRaw = await Task.aggregate([
       {
-        $match: { assignedTo: userId },
+        $match: { assignedTo: userId, isDeleted: false },
       },
       {
         $group: {
@@ -383,7 +421,10 @@ const getUserDashboardData = async (req, res) => {
     }, {});
 
     // Fetch recent 10 taskStatuses
-    const recentTasks = await Task.find({ assignedTo: userId })
+    const recentTasks = await Task.find({
+      assignedTo: userId,
+      isDeleted: false,
+    })
       .sort({ createdAt: -1 })
       .limit(10)
       .select("title status priority dueDate createdAt");
@@ -406,6 +447,62 @@ const getUserDashboardData = async (req, res) => {
   }
 };
 
+// @desc Get deleted tasks (Trash)
+// @route GET /api/tasks/trash
+// @access Private/Admin
+const getTrashTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ isDeleted: true })
+      .populate("assignedTo", "name email profileImageUrl")
+      .sort({ deletedAt: -1 });
+
+    res.json(tasks);
+  } catch (error) {
+    console.error("GET TRASH TASKS ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// @desc Restore deleted task
+// @route PUT /api/tasks/:id/restore
+// @access Private/Admin
+const restoreTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task || !task.isDeleted) {
+      return res.status(404).json({ message: "Task not found in trash" });
+    }
+
+    task.isDeleted = false;
+    task.deletedAt = null;
+    task.status = task.previousStatus || "Pending";
+    task.previousStatus = null;
+
+    await task.save();
+
+    res.json({ message: "Task restored successfully", task });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// @desc Permanently delete task
+// @route DELETE /api/tasks/:id/permanent
+// @access Private/Admin
+const permanentlyDeleteTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task || !task.isDeleted) {
+      return res.status(404).json({ message: "Task not found in trash" });
+    }
+
+    await task.deleteOne();
+    res.json({ message: "Task permanently deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getTasks,
   getTaskById,
@@ -416,4 +513,7 @@ module.exports = {
   updateTaskChecklist,
   getDashboardData,
   getUserDashboardData,
+  getTrashTasks,
+  restoreTask,
+  permanentlyDeleteTask,
 };

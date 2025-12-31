@@ -20,6 +20,9 @@ const TaskCard = ({
   completedTodoCount,
   todoChecklist,
   onClick,
+  isTrash = false,
+  onRestore,
+  onPermanentDelete,
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -29,6 +32,8 @@ const TaskCard = ({
         return "text-cyan-500 bg-cyan-50 border border-cyan-500/10";
       case "Completed":
         return "text-lime-500 bg-lime-50 border border-lime-500/20";
+      case "Deleted":
+        return "text-red-500 bg-red-50 border border-red-500/20";
       default:
         return "text-violet-500 bg-violet-50 border border-violet-500/10";
     }
@@ -47,7 +52,7 @@ const TaskCard = ({
   return (
     <div
       className="bg-white rounded-xl py-4 shadow-md shadow-gray-100 border border-gray-200/50 cursor-pointer"
-      onClick={onClick}
+      onClick={!isTrash ? onClick : undefined}
     >
       <div className="flex items-end gap-3 px-4">
         <div
@@ -119,6 +124,29 @@ const TaskCard = ({
           )}
         </div>
       </div>
+      {isTrash && (
+        <div className="px-4 mt-4 flex gap-2">
+          <button
+            className="flex-1 text-sm py-1.5 rounded border border-emerald-500 text-emerald-600 hover:bg-emerald-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRestore();
+            }}
+          >
+            Restore
+          </button>
+
+          <button
+            className="flex-1 text-sm py-1.5 rounded border border-red-500 text-red-600 hover:bg-red-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPermanentDelete();
+            }}
+          >
+            Delete forever
+          </button>
+        </div>
+      )}
     </div>
   );
 };

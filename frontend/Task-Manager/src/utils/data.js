@@ -5,6 +5,7 @@ import {
   LuSquarePlus,
   LuLogOut,
   LuVault,
+  LuTrash,
 } from "react-icons/lu";
 
 export const SIDE_MENU_DATA = [
@@ -32,8 +33,9 @@ export const SIDE_MENU_DATA = [
     icon: LuUsers,
     path: "/admin/users",
   },
+  { id: "05", label: "sidebar.trash", path: "/admin/trash", icon: LuTrash },
   {
-    id: "05",
+    id: "06",
     label: "sidebar.logout",
     icon: LuLogOut,
     path: "logout",

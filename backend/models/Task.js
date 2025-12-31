@@ -20,6 +20,11 @@ const taskSchema = new mongoose.Schema(
       enum: ["Pending", "In Progress", "Completed"],
       default: "Pending",
     },
+
+    previousStatus: { type: String }, // lưu trạng thái trước khi xóa
+    isDeleted: { type: Boolean, default: false },
+    deletedAt: { type: Date },
+
     dueDate: { type: Date, required: true },
     assignedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

@@ -39,7 +39,8 @@
     "teamMembers": "Thành viên nhóm",
     "myTasks": "Công việc của tôi",
     "taskDone": "Đã hoàn thành",
-    "startDate": "Ngày bắt đầu"
+    "startDate": "Ngày bắt đầu",
+    "trash": "Thùng rác"
   },
   "auth": {
     "logOut": "Đăng xuất",
@@ -86,7 +87,8 @@
     "createTask": "Tạo công việc",
     "teamMembers": "Thành viên nhóm",
     "logout": "Đăng xuất",
-    "myTasks": "Công việc của tôi"
+    "myTasks": "Công việc của tôi",
+    "trash": "Thùng rác"
   },
   "errors": {
     "titleRequired": "Vui lòng nhập tiêu đề.",

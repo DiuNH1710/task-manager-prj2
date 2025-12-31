@@ -20,6 +20,7 @@ import UserProvider, { UserContext } from "./context/userContext";
 import { Toaster } from "react-hot-toast";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
+import TrashTasks from "./pages/Admin/TrashTasks";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/admin/tasks" element={<ManageTasks />} />
               <Route path="/admin/create-task" element={<CreateTask />} />
               <Route path="/admin/users" element={<ManageUsers />} />
+              <Route path="/admin/trash" element={<TrashTasks />} />
             </Route>
 
             {/* User Routes */}

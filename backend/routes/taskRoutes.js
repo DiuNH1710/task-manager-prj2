@@ -10,6 +10,9 @@ const {
   deleteTask,
   updateTaskStatus,
   updateTaskChecklist,
+  getTrashTasks,
+  restoreTask,
+  permanentlyDeleteTask,
 } = require("../controllers/taskController");
 
 const router = express.Router();
@@ -18,6 +21,9 @@ const router = express.Router();
 
 router.get("/dashboard-data", protect, getDashboardData);
 router.get("/user-dashboard-data", protect, getUserDashboardData);
+router.get("/trash", protect, adminOnly, getTrashTasks);
+router.put("/:id/restore", protect, adminOnly, restoreTask);
+router.delete("/:id/permanent", protect, adminOnly, permanentlyDeleteTask);
 router.get("/", protect, getTasks);
 router.get("/:id", protect, getTaskById);
 router.post("/", protect, adminOnly, createTask);
