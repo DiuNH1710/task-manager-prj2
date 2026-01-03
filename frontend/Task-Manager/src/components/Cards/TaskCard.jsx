@@ -133,7 +133,7 @@ const TaskCard = ({
               onRestore();
             }}
           >
-            Restore
+            {t("tasks.restore")}
           </button>
 
           <button
@@ -143,7 +143,7 @@ const TaskCard = ({
               onPermanentDelete();
             }}
           >
-            Delete forever
+            {t("tasks.permanentDelete")}
           </button>
         </div>
       )}

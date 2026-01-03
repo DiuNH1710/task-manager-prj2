@@ -40,7 +40,7 @@ const TrashTasks = () => {
                 title={task.title}
                 description={task.description}
                 priority={task.priority}
-                status="Deleted"
+                status={task.status}
                 progress={task.progress}
                 createdAt={task.createdAt}
                 dueDate={task.dueDate}

@@ -40,7 +40,9 @@
     "myTasks": "My Tasks",
     "taskDone": "Task Done",
     "startDate": "Start Date",
-    "trash": "Trash"
+    "trash": "Trash",
+    "restore": "Restore",
+    "permanentDelete": "Permanent Delete"
   },
   "auth": {
     "logOut": "Log Out",
@@ -58,16 +60,32 @@
     "token": "Admin Invite Token",
     "digitcode": "6 Digit Code",
     "haveAccount": "Already an account?",
+    "loginGoogleWithAdmin": "Log in with Google with admin rights",
+    "forgotPassword": "Forgot Password?",
 
     "errorPass": "Please enter the password",
     "errorAuth": "Something went wrong. Please try again.",
     "errorFullname": "Please enter full name",
     "errorEmail": "Please enter a valid email address",
-    "invalidEmailorPass": "Invalid email or password"
+    "invalidEmailorPass": "Invalid email or password",
+
+    "forgotPasswordDesc": "Enter your email to receive a password reset link",
+
+    "sendResetLink": "Send reset link",
+    "backToLogin": "Back to login",
+    "invalidEmail": "Invalid email address",
+    "resetLinkSent": "Password reset link has been sent to your email",
+
+    "resetPassword": "Reset password",
+    "newPassword": "New password",
+    "changePassword": "Change password",
+    "resetPasswordSuccess": "Password reset successfully. Please log in again",
+    "invalidOrExpiredToken": "Invalid or expired reset token"
   },
   "common": {
     "seeAll": "See All",
-    "count": "Count"
+    "count": "Count",
+    "somethingWentWrong": "Something went wrong, please try again"
   },
   "status": {
     "All": "All",

@@ -131,7 +131,7 @@ const Login = () => {
           />
           <p className="text-xs mt-2">
             <Link to="/forgot-password" className="text-primary underline">
-              Quên mật khẩu?
+              {t("auth.forgotPassword")}
             </Link>
           </p>
 
@@ -153,7 +153,7 @@ const Login = () => {
                 }
               }}
             />
-            Đăng nhập Google với quyền Admin
+            {t("auth.loginGoogleWithAdmin")}
           </label>
         </div>
         {isAdminLogin && (

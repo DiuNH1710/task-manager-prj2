@@ -40,7 +40,9 @@
     "myTasks": "Công việc của tôi",
     "taskDone": "Đã hoàn thành",
     "startDate": "Ngày bắt đầu",
-    "trash": "Thùng rác"
+    "trash": "Thùng rác",
+    "restore": "Khôi phục",
+    "permanentDelete": "Xóa vĩnh viễn"
   },
   "auth": {
     "logOut": "Đăng xuất",
@@ -52,6 +54,8 @@
     "login": "Đăng nhập",
     "notAccount": "Chưa có tài khoản?",
     "signUp": "Đăng ký",
+    "loginGoogleWithAdmin": "Đăng nhập với Google với quyền admin",
+    "forgotPassword": "Quên mật khẩu?",
 
     "createAccount": "Tạo tài khoản",
     "joinUs": "Tham gia ngay hôm nay bằng cách nhập thông tin của bạn bên dưới!",
@@ -64,11 +68,25 @@
     "errorAuth": "Đã xảy ra lỗi. Vui lòng thử lại.",
     "errorFullname": "Vui lòng nhập họ và tên",
     "errorEmail": "Vui lòng nhập địa chỉ email hợp lệ",
-    "invalidEmailorPass": "Email hoặc mật khẩu không hợp lệ"
+    "invalidEmailorPass": "Email hoặc mật khẩu không hợp lệ",
+
+    "forgotPasswordDesc": "Nhập email để nhận link đặt lại mật khẩu",
+
+    "sendResetLink": "Gửi link đặt lại mật khẩu",
+    "backToLogin": "Quay lại đăng nhập",
+    "invalidEmail": "Email không hợp lệ",
+    "resetLinkSent": "Link đặt lại mật khẩu đã được gửi đến email của bạn",
+
+    "resetPassword": "Đặt lại mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "changePassword": "Đổi mật khẩu",
+    "resetPasswordSuccess": "Đổi mật khẩu thành công, vui lòng đăng nhập lại",
+    "invalidOrExpiredToken": "Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn"
   },
   "common": {
     "seeAll": "Xem tất cả",
-    "count": "Số lượng"
+    "count": "Số lượng",
+    "somethingWentWrong": "Có lỗi xảy ra, vui lòng thử lại"
   },
   "status": {
     "All": "Tất cả",

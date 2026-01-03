@@ -4,10 +4,12 @@ import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/Inputs/Input";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import { useTranslation } from "react-i18next";
 
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +18,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (!password || password.length < 8) {
-      setError("Mật khẩu tối thiểu 8 ký tự");
+      setError(t("auth.min8Char"));
       return;
     }
 
@@ -25,21 +27,21 @@ const ResetPassword = () => {
         password,
       });
 
-      alert("Đổi mật khẩu thành công, vui lòng đăng nhập lại");
+      alert(t("auth.resetPasswordSuccess"));
       navigate("/login");
     } catch (err) {
-      setError(err?.response?.data?.message || "Token không hợp lệ");
+      setError(err?.response?.data?.message || t("auth.invalidOrExpiredToken"));
     }
   };
 
   return (
     <AuthLayout>
       <div className="lg:w-[70%] flex flex-col justify-center">
-        <h3 className="text-xl font-semibold">Đặt lại mật khẩu</h3>
+        <h3 className="text-xl font-semibold"> {t("auth.resetPassword")}</h3>
 
         <form onSubmit={handleSubmit}>
           <Input
-            label="Mật khẩu mới"
+            label={t("auth.newPassword")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -49,7 +51,7 @@ const ResetPassword = () => {
           {error && <p className="text-red-500 text-xs">{error}</p>}
 
           <button className="btn-primary mt-4" type="submit">
-            Đổi mật khẩu
+            {t("auth.changePassword")}
           </button>
         </form>
       </div>

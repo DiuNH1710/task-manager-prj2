@@ -5,8 +5,11 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { validateEmail } from "../../utils/helper";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ForgotPassword = () => {
+  const { t } = useTranslation();
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -15,7 +18,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError("Email không hợp lệ");
+      setError(t("auth.invalidEmail"));
       return;
     }
 
@@ -27,23 +30,23 @@ const ForgotPassword = () => {
         email,
       });
 
-      setMessage(res.data.message);
+      setMessage(t("auth.resetLinkSent"));
     } catch (err) {
-      setError(err?.response?.data?.message || "Có lỗi xảy ra");
+      setError(err?.response?.data?.message || t("common.somethingWentWrong"));
     }
   };
 
   return (
     <AuthLayout>
       <div className="lg:w-[70%] flex flex-col justify-center">
-        <h3 className="text-xl font-semibold">Quên mật khẩu</h3>
+        <h3 className="text-xl font-semibold"> {t("auth.forgotPassword")}</h3>
         <p className="text-xs text-slate-700 mt-2 mb-6">
-          Nhập email để nhận link đặt lại mật khẩu
+          {t("auth.forgotPasswordDesc")}
         </p>
 
         <form onSubmit={handleSubmit}>
           <Input
-            label="Email"
+            label={t("auth.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="john@example.com"
@@ -53,13 +56,13 @@ const ForgotPassword = () => {
           {message && <p className="text-green-600 text-xs">{message}</p>}
 
           <button className="btn-primary mt-4" type="submit">
-            Gửi link reset
+            {t("auth.sendResetLink")}
           </button>
         </form>
 
         <p className="text-sm mt-4">
           <Link to="/login" className="text-primary underline">
-            Quay lại đăng nhập
+            {t("auth.backToLogin")}
           </Link>
         </p>
       </div>
